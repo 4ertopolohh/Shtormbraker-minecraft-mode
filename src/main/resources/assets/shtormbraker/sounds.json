@@ -1,0 +1,20 @@
+{
+  "mjolnir_throw": {
+    "subtitle": "subtitles.shtormbraker.mjolnir_throw",
+    "sounds": [
+      {
+        "name": "shtormbraker:mjolnir_throw",
+        "stream": false
+      }
+    ]
+  },
+  "mjolnir_return": {
+    "subtitle": "subtitles.shtormbraker.mjolnir_return",
+    "sounds": [
+      {
+        "name": "shtormbraker:mjolnir_return",
+        "stream": false
+      }
+    ]
+  }
+}

@@ -2,10 +2,15 @@ package com.shtormbraker.shtormbraker.network.packet;
 
 import com.shtormbraker.shtormbraker.ShtormbrakerConfigValues;
 import com.shtormbraker.shtormbraker.entity.ThrownShtormbrakerEntity;
+import com.shtormbraker.shtormbraker.registry.ModSounds;
 import com.shtormbraker.shtormbraker.state.ShtormbrakerServerState;
 import com.shtormbraker.shtormbraker.util.ModUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -29,7 +34,6 @@ public class C2SThrowOrRecallPacket {
 
             ThrownShtormbrakerEntity active = ShtormbrakerServerState.getActiveThrown(player);
             if (active != null && active.isAlive()) {
-                active.beginReturn();
                 return;
             }
 
@@ -37,12 +41,17 @@ public class C2SThrowOrRecallPacket {
                 return;
             }
 
+            Vec3 start = player.getEyePosition();
+            Vec3 end = start.add(player.getLookAngle().normalize().scale(ShtormbrakerConfigValues.THROW_MAX_DISTANCE));
+            BlockHitResult hit = player.level().clip(new ClipContext(start, end, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player));
+            Vec3 target = hit.getType() == HitResult.Type.MISS ? end : hit.getLocation();
+
             ThrownShtormbrakerEntity thrown = new ThrownShtormbrakerEntity(player.level(), player);
             thrown.setThrower(player);
-            thrown.setPos(player.getX(), player.getEyeY() - 0.15D, player.getZ());
-            Vec3 dir = player.getLookAngle().normalize();
-            thrown.setDeltaMovement(dir.scale(ShtormbrakerConfigValues.THROW_SPEED));
+            thrown.setPos(start.x, start.y - 0.2D, start.z);
+            thrown.configureOutbound(target);
             player.level().addFreshEntity(thrown);
+            player.level().playSound(null, player.blockPosition(), ModSounds.MJOLNIR_THROW.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             ShtormbrakerServerState.setActiveThrown(player, thrown);
         });
         context.setPacketHandled(true);

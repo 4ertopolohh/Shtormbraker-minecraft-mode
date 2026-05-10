@@ -1,7 +1,6 @@
 package com.shtormbraker.shtormbraker.client;
 
 import com.shtormbraker.shtormbraker.registry.ModEntities;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 
@@ -15,6 +14,6 @@ public final class ClientModEvents {
     }
 
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.THROWN_SHTORMBRAKER.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.THROWN_SHTORMBRAKER.get(), ThrownShtormbrakerRenderer::new);
     }
 }

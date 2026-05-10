@@ -2,5 +2,7 @@
   "item.shtormbraker.shtormbraker": "Shtormbraker",
   "key.categories.shtormbraker": "Shtormbraker",
   "key.shtormbraker.strike_lightning": "Strike Lightning",
-  "key.shtormbraker.start_storm": "Start Storm"
+  "key.shtormbraker.start_storm": "Start Storm",
+  "subtitles.shtormbraker.mjolnir_throw": "Shtormbraker flies out",
+  "subtitles.shtormbraker.mjolnir_return": "Shtormbraker returns"
 }

@@ -2,5 +2,7 @@
   "item.shtormbraker.shtormbraker": "Штормбрейкер",
   "key.categories.shtormbraker": "Shtormbraker",
   "key.shtormbraker.strike_lightning": "Удар молнией",
-  "key.shtormbraker.start_storm": "Вызвать грозу"
+  "key.shtormbraker.start_storm": "Вызвать грозу",
+  "subtitles.shtormbraker.mjolnir_throw": "Штормбрейкер улетает",
+  "subtitles.shtormbraker.mjolnir_return": "Штормбрейкер возвращается"
 }

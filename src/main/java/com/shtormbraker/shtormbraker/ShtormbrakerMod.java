@@ -5,6 +5,7 @@ import com.shtormbraker.shtormbraker.client.ClientBootstrap;
 import com.shtormbraker.shtormbraker.network.ModNetworking;
 import com.shtormbraker.shtormbraker.registry.ModEntities;
 import com.shtormbraker.shtormbraker.registry.ModItems;
+import com.shtormbraker.shtormbraker.registry.ModSounds;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -22,6 +23,7 @@ public class ShtormbrakerMod {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.ITEMS.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
+        ModSounds.SOUND_EVENTS.register(modEventBus);
 
         modEventBus.addListener(this::onRegisterCapabilities);
         modEventBus.addListener(this::onBuildCreativeTabs);

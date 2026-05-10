@@ -25,8 +25,21 @@ public class C2SStartStormPacket {
                 return;
             }
 
+            boolean stormActive = false;
             for (ServerLevel level : player.server.getAllLevels()) {
-                if (level.dimensionType().hasSkyLight() && !level.dimensionType().ultraWarm()) {
+                if (level.dimensionType().hasSkyLight() && !level.dimensionType().ultraWarm() && level.isThundering()) {
+                    stormActive = true;
+                    break;
+                }
+            }
+
+            for (ServerLevel level : player.server.getAllLevels()) {
+                if (!level.dimensionType().hasSkyLight() || level.dimensionType().ultraWarm()) {
+                    continue;
+                }
+                if (stormActive) {
+                    level.setWeatherParameters(6000, 0, false, false);
+                } else {
                     level.setWeatherParameters(0, ShtormbrakerConfigValues.STORM_DURATION_TICKS, true, true);
                 }
             }

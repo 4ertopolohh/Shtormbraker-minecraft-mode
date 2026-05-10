@@ -2,5 +2,28 @@
   "parent": "item/handheld",
   "textures": {
     "layer0": "shtormbraker:item/shtormbraker"
+  },
+  "display": {
+    "gui": {
+      "scale": [1.5, 1.5, 1.5]
+    },
+    "ground": {
+      "scale": [0.75, 0.75, 0.75]
+    },
+    "fixed": {
+      "scale": [1.5, 1.5, 1.5]
+    },
+    "thirdperson_righthand": {
+      "scale": [1.5, 1.5, 1.5]
+    },
+    "thirdperson_lefthand": {
+      "scale": [1.5, 1.5, 1.5]
+    },
+    "firstperson_righthand": {
+      "scale": [1.5, 1.5, 1.5]
+    },
+    "firstperson_lefthand": {
+      "scale": [1.5, 1.5, 1.5]
+    }
   }
 }
