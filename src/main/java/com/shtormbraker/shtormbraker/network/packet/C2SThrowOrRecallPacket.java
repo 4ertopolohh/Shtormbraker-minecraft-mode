@@ -51,7 +51,7 @@ public class C2SThrowOrRecallPacket {
             thrown.setPos(start.x, start.y - 0.2D, start.z);
             thrown.configureOutbound(target);
             player.level().addFreshEntity(thrown);
-            player.level().playSound(null, player.blockPosition(), ModSounds.MJOLNIR_THROW.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            player.level().playSound(null, thrown.getX(), thrown.getY(), thrown.getZ(), ModSounds.MJOLNIR_THROW.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             ShtormbrakerServerState.setActiveThrown(player, thrown);
         });
         context.setPacketHandled(true);
