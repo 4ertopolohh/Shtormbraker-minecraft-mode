@@ -2,6 +2,7 @@ package com.shtormbraker.shtormbraker.events;
 
 import com.shtormbraker.shtormbraker.ShtormbrakerMod;
 import com.shtormbraker.shtormbraker.capability.PlayerFlightProvider;
+import com.shtormbraker.shtormbraker.network.FlightAnimationSync;
 import com.shtormbraker.shtormbraker.state.ShtormbrakerServerState;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -21,6 +22,7 @@ public final class ServerPlayerLifecycleHandler {
             player.getCapability(PlayerFlightProvider.CAPABILITY).ifPresent(data -> {
                 data.setFlying(false);
                 data.setFallDamageGraceTicks(0);
+                FlightAnimationSync.broadcastState(player, false, data.getDirection(), data.getFlightHand());
             });
             PlayerInventoryBuffHandler.clearBuffs(player);
         }
@@ -30,7 +32,10 @@ public final class ServerPlayerLifecycleHandler {
     public static void onDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             ShtormbrakerServerState.clearActiveThrown(player);
-            player.getCapability(PlayerFlightProvider.CAPABILITY).ifPresent(data -> data.setFlying(false));
+            player.getCapability(PlayerFlightProvider.CAPABILITY).ifPresent(data -> {
+                data.setFlying(false);
+                FlightAnimationSync.broadcastState(player, false, data.getDirection(), data.getFlightHand());
+            });
             PlayerInventoryBuffHandler.clearBuffs(player);
         }
     }
@@ -42,6 +47,7 @@ public final class ServerPlayerLifecycleHandler {
             player.getCapability(PlayerFlightProvider.CAPABILITY).ifPresent(data -> {
                 data.setFlying(false);
                 data.setFallDamageGraceTicks(0);
+                FlightAnimationSync.broadcastState(player, false, data.getDirection(), data.getFlightHand());
             });
             PlayerInventoryBuffHandler.clearBuffs(player);
         }

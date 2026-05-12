@@ -2,22 +2,31 @@ package com.shtormbraker.shtormbraker.network.packet;
 
 import com.shtormbraker.shtormbraker.ShtormbrakerConfigValues;
 import com.shtormbraker.shtormbraker.capability.PlayerFlightProvider;
+import com.shtormbraker.shtormbraker.network.FlightAnimationSync;
 import com.shtormbraker.shtormbraker.registry.ModSounds;
 import com.shtormbraker.shtormbraker.util.ModUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 public class C2SToggleFlightPacket {
+    private final InteractionHand usedHand;
+
+    public C2SToggleFlightPacket(InteractionHand usedHand) {
+        this.usedHand = usedHand == null ? InteractionHand.MAIN_HAND : usedHand;
+    }
+
     public static C2SToggleFlightPacket decode(FriendlyByteBuf buf) {
-        return new C2SToggleFlightPacket();
+        return new C2SToggleFlightPacket(buf.readEnum(InteractionHand.class));
     }
 
     public static void encode(C2SToggleFlightPacket packet, FriendlyByteBuf buf) {
+        buf.writeEnum(packet.usedHand);
     }
 
     public static void handle(C2SToggleFlightPacket packet, Supplier<NetworkEvent.Context> supplier) {
@@ -32,6 +41,7 @@ public class C2SToggleFlightPacket {
                 if (data.isFlying()) {
                     data.setFlying(false);
                     data.setFallDamageGraceTicks(40);
+                    FlightAnimationSync.broadcastState(player, false, data.getDirection(), data.getFlightHand());
                 } else {
                     Vec3 dir = player.getLookAngle().normalize();
                     if (dir.lengthSqr() < 1.0E-4D) {
@@ -39,8 +49,10 @@ public class C2SToggleFlightPacket {
                     }
                     data.setFlying(true);
                     data.setDirection(dir.scale(ShtormbrakerConfigValues.PLAYER_FLIGHT_SPEED));
+                    data.setFlightHand(packet.usedHand);
                     data.setFallDamageGraceTicks(0);
                     player.fallDistance = 0.0F;
+                    FlightAnimationSync.broadcastCurrentState(player, data);
                     player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.MJOLNIR_TAKEOFF.get(),
                             SoundSource.PLAYERS, ShtormbrakerConfigValues.FLIGHT_TAKEOFF_SOUND_VOLUME,
                             ShtormbrakerConfigValues.FLIGHT_TAKEOFF_SOUND_PITCH);

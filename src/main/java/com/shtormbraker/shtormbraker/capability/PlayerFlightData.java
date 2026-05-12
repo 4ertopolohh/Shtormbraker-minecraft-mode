@@ -1,11 +1,13 @@
 package com.shtormbraker.shtormbraker.capability;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
 
 public class PlayerFlightData implements IPlayerFlightData {
     private boolean flying;
     private Vec3 direction = Vec3.ZERO;
+    private InteractionHand flightHand = InteractionHand.MAIN_HAND;
     private int fallDamageGraceTicks;
 
     @Override
@@ -26,6 +28,16 @@ public class PlayerFlightData implements IPlayerFlightData {
     @Override
     public void setDirection(Vec3 direction) {
         this.direction = direction;
+    }
+
+    @Override
+    public InteractionHand getFlightHand() {
+        return this.flightHand;
+    }
+
+    @Override
+    public void setFlightHand(InteractionHand hand) {
+        this.flightHand = hand == null ? InteractionHand.MAIN_HAND : hand;
     }
 
     @Override
@@ -52,6 +64,7 @@ public class PlayerFlightData implements IPlayerFlightData {
         tag.putDouble("dx", this.direction.x);
         tag.putDouble("dy", this.direction.y);
         tag.putDouble("dz", this.direction.z);
+        tag.putString("flight_hand", this.flightHand.name());
         tag.putInt("fall_grace", this.fallDamageGraceTicks);
         return tag;
     }
@@ -60,6 +73,18 @@ public class PlayerFlightData implements IPlayerFlightData {
     public void deserializeNBT(CompoundTag tag) {
         this.flying = tag.getBoolean("flying");
         this.direction = new Vec3(tag.getDouble("dx"), tag.getDouble("dy"), tag.getDouble("dz"));
+        this.flightHand = parseHand(tag.getString("flight_hand"));
         this.fallDamageGraceTicks = Math.max(0, tag.getInt("fall_grace"));
+    }
+
+    private static InteractionHand parseHand(String rawHand) {
+        if (rawHand == null || rawHand.isEmpty()) {
+            return InteractionHand.MAIN_HAND;
+        }
+        try {
+            return InteractionHand.valueOf(rawHand);
+        } catch (IllegalArgumentException ignored) {
+            return InteractionHand.MAIN_HAND;
+        }
     }
 }

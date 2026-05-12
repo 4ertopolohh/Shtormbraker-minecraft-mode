@@ -3,6 +3,7 @@ package com.shtormbraker.shtormbraker.events;
 import com.shtormbraker.shtormbraker.ShtormbrakerConfigValues;
 import com.shtormbraker.shtormbraker.ShtormbrakerMod;
 import com.shtormbraker.shtormbraker.capability.PlayerFlightProvider;
+import com.shtormbraker.shtormbraker.network.FlightAnimationSync;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -49,6 +50,7 @@ public final class PlayerFlightHandler {
                 if (!player.isAlive()) {
                     data.setFlying(false);
                     data.setFallDamageGraceTicks(40);
+                    FlightAnimationSync.broadcastState(player, false, data.getDirection(), data.getFlightHand());
                     return;
                 }
 
@@ -60,6 +62,19 @@ public final class PlayerFlightHandler {
             } else if (data.getFallDamageGraceTicks() > 0) {
                 player.fallDistance = 0.0F;
                 data.tickGrace();
+            }
+        });
+    }
+
+    @SubscribeEvent
+    public static void onStartTracking(PlayerEvent.StartTracking event) {
+        if (!(event.getEntity() instanceof ServerPlayer viewer) || !(event.getTarget() instanceof ServerPlayer animatedPlayer)) {
+            return;
+        }
+
+        animatedPlayer.getCapability(PlayerFlightProvider.CAPABILITY).ifPresent(data -> {
+            if (data.isFlying()) {
+                FlightAnimationSync.sendStateToPlayer(viewer, animatedPlayer, data);
             }
         });
     }

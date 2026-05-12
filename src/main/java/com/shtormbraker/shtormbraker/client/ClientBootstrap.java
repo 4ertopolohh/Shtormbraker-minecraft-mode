@@ -11,5 +11,6 @@ public final class ClientBootstrap {
         modBus.addListener(ClientModEvents::onRegisterKeyMappings);
         modBus.addListener(ClientModEvents::onRegisterRenderers);
         MinecraftForge.EVENT_BUS.register(ClientInputHandler.class);
+        MinecraftForge.EVENT_BUS.register(ClientFlightAnimationHandler.class);
     }
 }

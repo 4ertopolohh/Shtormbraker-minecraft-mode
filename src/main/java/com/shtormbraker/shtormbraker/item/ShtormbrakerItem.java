@@ -52,7 +52,7 @@ public class ShtormbrakerItem extends AxeItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         if (level.isClientSide) {
-            ModNetworking.sendToServer(new C2SToggleFlightPacket());
+            ModNetworking.sendToServer(new C2SToggleFlightPacket(usedHand));
         }
 
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
