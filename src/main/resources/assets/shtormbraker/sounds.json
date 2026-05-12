@@ -16,5 +16,13 @@
         "stream": false
       }
     ]
+  },
+  "mjolnir_takeoff": {
+    "sounds": [
+      {
+        "name": "shtormbraker:mjolnir_takeoff",
+        "stream": false
+      }
+    ]
   }
 }

@@ -22,6 +22,7 @@ public final class ServerPlayerLifecycleHandler {
                 data.setFlying(false);
                 data.setFallDamageGraceTicks(0);
             });
+            PlayerInventoryBuffHandler.clearBuffs(player);
         }
     }
 
@@ -30,6 +31,7 @@ public final class ServerPlayerLifecycleHandler {
         if (event.getEntity() instanceof ServerPlayer player) {
             ShtormbrakerServerState.clearActiveThrown(player);
             player.getCapability(PlayerFlightProvider.CAPABILITY).ifPresent(data -> data.setFlying(false));
+            PlayerInventoryBuffHandler.clearBuffs(player);
         }
     }
 
@@ -41,6 +43,7 @@ public final class ServerPlayerLifecycleHandler {
                 data.setFlying(false);
                 data.setFallDamageGraceTicks(0);
             });
+            PlayerInventoryBuffHandler.clearBuffs(player);
         }
     }
 }

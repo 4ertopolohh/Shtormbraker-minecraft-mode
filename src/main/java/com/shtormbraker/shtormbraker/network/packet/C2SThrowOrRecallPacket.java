@@ -50,9 +50,14 @@ public class C2SThrowOrRecallPacket {
             thrown.setThrower(player);
             thrown.setPos(start.x, start.y - 0.2D, start.z);
             thrown.configureOutbound(target);
-            player.level().addFreshEntity(thrown);
-            player.level().playSound(null, thrown.getX(), thrown.getY(), thrown.getZ(), ModSounds.MJOLNIR_THROW.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            boolean spawned = player.level().addFreshEntity(thrown);
+            if (!spawned) {
+                ModUtil.giveOrDropShtormbraker(player);
+                return;
+            }
+
             ShtormbrakerServerState.setActiveThrown(player, thrown);
+            player.level().playSound(null, thrown.getX(), thrown.getY(), thrown.getZ(), ModSounds.MJOLNIR_THROW.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
         });
         context.setPacketHandled(true);
     }

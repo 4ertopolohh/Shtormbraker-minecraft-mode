@@ -16,6 +16,9 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> MJOLNIR_RETURN = SOUND_EVENTS.register("mjolnir_return",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(ShtormbrakerMod.MODID, "mjolnir_return")));
 
+    public static final RegistryObject<SoundEvent> MJOLNIR_TAKEOFF = SOUND_EVENTS.register("mjolnir_takeoff",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(ShtormbrakerMod.MODID, "mjolnir_takeoff")));
+
     private ModSounds() {
     }
 }

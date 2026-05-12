@@ -16,6 +16,16 @@ public final class ShtormbrakerConfigValues {
     public static final double RETURN_PICKUP_DISTANCE = 1.6D;
     public static final float SPIN_DEGREES_PER_TICK = 42.0F;
 
+    public static final double PLAYER_MAX_HEALTH_MULTIPLIER = 2.0D;
+    public static final double PLAYER_JUMP_MULTIPLIER = 1.2D;
+    public static final double PLAYER_MOVE_SPEED_MULTIPLIER = 1.5D;
+    public static final double PLAYER_REGEN_MULTIPLIER = 1.5D;
+    public static final int PLAYER_REGEN_EFFECT_AMPLIFIER = 0;
+    public static final int PLAYER_REGEN_EFFECT_DURATION_TICKS = 80;
+
+    public static final float FLIGHT_TAKEOFF_SOUND_VOLUME = 1.0F;
+    public static final float FLIGHT_TAKEOFF_SOUND_PITCH = 1.0F;
+
     private ShtormbrakerConfigValues() {
     }
 }

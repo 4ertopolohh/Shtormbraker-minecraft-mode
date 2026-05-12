@@ -13,6 +13,26 @@ public final class ModUtil {
         return isShtormbraker(player.getMainHandItem()) || isShtormbraker(player.getOffhandItem());
     }
 
+    public static boolean hasShtormbrakerInInventory(Player player) {
+        if (isHoldingShtormbraker(player)) {
+            return true;
+        }
+
+        for (ItemStack stack : player.getInventory().items) {
+            if (isShtormbraker(stack)) {
+                return true;
+            }
+        }
+
+        for (ItemStack stack : player.getInventory().offhand) {
+            if (isShtormbraker(stack)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean isShtormbraker(ItemStack stack) {
         return !stack.isEmpty() && stack.is(ModItems.SHTORMBRAKER.get());
     }
